@@ -25,6 +25,10 @@ def db():
     con.execute("""CREATE TABLE IF NOT EXISTS applications
         (id INTEGER PRIMARY KEY, company TEXT, role TEXT, location TEXT,
          url TEXT UNIQUE, match_score INTEGER, status TEXT, added_at TEXT)""")
+    con.execute("""CREATE TABLE IF NOT EXISTS application_drafts
+        (id INTEGER PRIMARY KEY, url TEXT UNIQUE, company TEXT, role TEXT,
+         match_score INTEGER, cover_letter TEXT, answers_json TEXT,
+         status TEXT DEFAULT "Draft ready", created_at TEXT)""")
     con.commit()
     return con
 
@@ -134,7 +138,20 @@ JOB DESCRIPTION:
                 for x in data.get("reasons", []): st.write(f"- {x}")
                 if data.get("missing_skills"): st.write("**Skill gaps:** " + ", ".join(data["missing_skills"]))
                 if data.get("eligibility_concerns"): st.warning(" | ".join(data["eligibility_concerns"]))
-                st.text_area("Draft cover letter", data.get("cover_letter", ""), key=f"letter_{i}", height=180)
+                letter = st.text_area("Draft cover letter", data.get("cover_letter", ""), key=f"letter_{i}", height=180)
+                if st.button("Save application preparation draft", key=f"prepare_{i}"):
+                    con = db()
+                    try:
+                        con.execute("""INSERT INTO application_drafts(url,company,role,match_score,cover_letter,answers_json,status,created_at)
+                            VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(url) DO UPDATE SET
+                            company=excluded.company, role=excluded.role, match_score=excluded.match_score,
+                            cover_letter=excluded.cover_letter, status="Draft ready", created_at=excluded.created_at""",
+                            (url, data.get("company","Unknown"), data.get("role",title), int(data.get("score",0)),
+                             letter, "", "Draft ready", datetime.now().isoformat(timespec="minutes")))
+                        con.commit()
+                        st.success("Draft saved. Nothing has been submitted.")
+                    finally:
+                        con.close()
                 approved = st.checkbox("I reviewed this job and want to save it", key=f"approve_{i}")
                 if approved and st.button("Save to application tracker", key=f"save_{i}"):
                     con = db()
@@ -190,5 +207,21 @@ if rows:
         st.link_button("Open application page", url)
 else:
     st.caption("No jobs saved yet.")
+
+st.divider()
+st.subheader("📝 Prepared applications")
+con = db()
+drafts = con.execute("SELECT company,role,match_score,cover_letter,status,url,created_at FROM application_drafts ORDER BY id DESC").fetchall()
+con.close()
+if drafts:
+    for idx, (company, role, score, letter, status, url, created) in enumerate(drafts):
+        with st.expander(f"{role} — {company} · {status}"):
+            st.caption(f"Match: {score}% · Prepared: {created}")
+            st.text_area("Saved cover letter", letter or "", key=f"saved_letter_{idx}", height=160)
+            if url.startswith("https://"):
+                st.link_button("Open application page to complete manually", url, key=f"draft_open_{idx}")
+            st.info("Preparation only: review the draft and submit yourself on the employer website.")
+else:
+    st.caption("No prepared applications yet.")
 
 st.warning("This starter searches public web results and drafts applications. It does not bypass CAPTCHAs, log into job sites, or submit applications automatically. Browser auto-fill requires a separately hosted Playwright worker and site-specific field mappings.")

@@ -105,3 +105,9 @@ The job-fit score and generated application text are decision-support drafts. Th
 Keep application submission user-approved: show the job URL, matched resume evidence, and drafted answers for review; never submit applications or expose personal data without explicit confirmation.
 
 For reproducibility, record source versions, environment and dependency versions, configuration, and actual test outputs. Clearly label sample data and illustrative results; never commit secrets or private data.
+
+### Technical Deep Dive
+
+The application workflow separates job discovery, profile-to-role matching, draft generation, application tracking, and local browser assistance. Treat job-fit scores as ranking signals, not proof of eligibility. Verify each listing on the employer's official careers page and validate every prefilled field against the user's current resume and profile before any submission.
+
+Suggested engineering checks: deduplicate listings by canonical URL, store API keys and applicant details outside version control, keep browser automation visible, handle CAPTCHA/OTP manually, and require explicit per-application review and confirmation. Never infer answers for legal, work-authorization, or eligibility questions.

@@ -99,3 +99,9 @@ Never store passwords, session cookies, API keys or private applicant data in th
 - Log application status without storing unnecessary sensitive personal information.
 
 The job-fit score and generated application text are decision-support drafts. They can be incomplete or inaccurate, so the applicant should verify eligibility, role details, and all submitted information.
+
+## Project Development Notes
+
+Keep application submission user-approved: show the job URL, matched resume evidence, and drafted answers for review; never submit applications or expose personal data without explicit confirmation.
+
+For reproducibility, record source versions, environment and dependency versions, configuration, and actual test outputs. Clearly label sample data and illustrative results; never commit secrets or private data.

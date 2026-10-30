@@ -77,8 +77,14 @@ def main():
                 scored.extend(rows)
         except json.JSONDecodeError:
             continue
-    scored = [x for x in scored if isinstance(x, dict) and x.get("url") and int(x.get("match_score", 0) or 0) >= 35]
-    scored.sort(key=lambda x: int(x.get("match_score", 0) or 0), reverse=True)
+    def score_of(item):
+        try:
+            return max(0, min(100, int(item.get("match_score", 0))))
+        except (TypeError, ValueError):
+            return 0
+
+    scored = [x for x in scored if isinstance(x, dict) and x.get("url") and score_of(x) >= 35]
+    scored.sort(key=score_of, reverse=True)
     payload = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "count": len(scored),

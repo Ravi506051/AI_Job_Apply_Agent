@@ -147,6 +147,38 @@ JOB DESCRIPTION:
                     finally: con.close()
 
 st.divider()
+st.subheader("⚡ Daily automated job discoveries")
+st.caption("Updated by the scheduled GitHub Actions worker. Results are AI-ranked public search listings; verify each employer's official page before applying.")
+
+@st.cache_data(ttl=300)
+def load_automated_feed():
+    feed_url = "https://raw.githubusercontent.com/Ravi506051/AI_Job_Apply_Agent/main/jobs_feed.json"
+    response = requests.get(feed_url, timeout=20)
+    response.raise_for_status()
+    return response.json()
+
+try:
+    feed = load_automated_feed()
+    if feed.get("updated_at"):
+        st.caption(f"Last worker update: {feed['updated_at']} · {feed.get('count', 0)} matches")
+    else:
+        st.info("The daily worker has not completed its first run yet.")
+    st.caption(feed.get("notice", ""))
+    for idx, job in enumerate(feed.get("jobs", [])):
+        with st.expander(f"{job.get('title', 'Job')} · Match {job.get('match_score', '—')}%"):
+            st.write("**Company:** " + str(job.get("company", "Unknown")))
+            st.write("**Location:** " + str(job.get("location", "Unknown")))
+            st.write("**Pay:** " + str(job.get("pay", "Not disclosed")))
+            st.write("**Type:** " + str(job.get("employment_type", "Unknown")))
+            st.write(job.get("reason", ""))
+            if job.get("eligibility_notes"):
+                st.caption("Eligibility: " + str(job.get("eligibility_notes")))
+            if job.get("url", "").startswith("https://"):
+                st.link_button("Open original listing", job["url"], key=f"auto_job_{idx}")
+except Exception as e:
+    st.warning(f"Could not load the automated job feed yet: {e}")
+
+st.divider()
 st.subheader("📋 Application tracker")
 con = db()
 rows = con.execute("SELECT company,role,location,match_score,status,url,added_at FROM applications ORDER BY id DESC").fetchall()

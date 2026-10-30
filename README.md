@@ -51,6 +51,24 @@ After filling, the browser pauses for review. It will click a uniquely identifie
 
 CAPTCHA and OTP are not bypassed; handle them yourself. Never submit guessed or false answers. Do not use this helper on portals that prohibit automated browser interaction, and do not use it for mass applications.
 
+## Review-first batch application assistant
+
+After the daily workflow has created `jobs_feed.json`, you can open a small ranked batch locally:
+
+```bash
+python batch_apply.py --top 5 --profile profile.json --resume "C:\\path\\to\\resume.pdf"
+```
+
+For each listing, type `OPEN` to open it, complete login/OTP yourself, and press Enter when the real application form is visible. The helper fills only confidently labelled/placeholder fields and attaches your resume when there is one unambiguous file input. It pauses for you to review each job before moving on.
+
+Submission remains off by default. If—and only if—the employer portal permits browser automation, you may enable a per-application confirmation:
+
+```bash
+python batch_apply.py --top 5 --profile profile.json --resume "C:\\path\\to\\resume.pdf" --allow-submit
+```
+
+You must type `SUBMIT` separately for each application after reviewing it. The helper will click only one uniquely identified supported submit button. It will not bypass CAPTCHA, OTP, login, or portal restrictions; unknown questions remain manual. Keep batches small and never submit inaccurate or guessed answers.
+
 ## API keys
 
 - Groq: https://console.groq.com/keys

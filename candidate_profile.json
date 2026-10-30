@@ -1,0 +1,17 @@
+{
+  "target_roles": [
+    "Data Analyst Intern",
+    "Data Science Intern",
+    "Machine Learning Intern",
+    "AI/ML Intern",
+    "Python Developer"
+  ],
+  "skills": [
+    "Python", "SQL", "Pandas", "NumPy", "Scikit-learn",
+    "Machine Learning", "Data Analysis", "Deep Learning"
+  ],
+  "education": "Final-year B.Tech Information Technology student in India",
+  "location_preference": ["Remote", "India"],
+  "minimum_stipend_inr": 10000,
+  "preferred_duration_months": [3, 6]
+}

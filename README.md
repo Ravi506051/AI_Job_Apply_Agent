@@ -89,3 +89,13 @@ Check provider pricing and limits before use.
 - There is no universal auto-apply: each employer portal must be checked for compatibility and permitted use.
 
 Never store passwords, session cookies, API keys or private applicant data in this repository.
+
+## Application Safety Checklist
+
+- Verify each job listing on the employer's official careers page before acting on it.
+- Review the resume, cover letter, and every prefilled application field for accuracy.
+- Keep profile files, resume copies containing personal details, and API credentials out of version control.
+- Require explicit user review and confirmation before any application is submitted.
+- Log application status without storing unnecessary sensitive personal information.
+
+The job-fit score and generated application text are decision-support drafts. They can be incomplete or inaccurate, so the applicant should verify eligibility, role details, and all submitted information.

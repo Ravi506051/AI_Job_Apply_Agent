@@ -1,13 +1,13 @@
-# AI Job Apply Agent (approval-first)
+# AI Job Apply Agent (user-approved application workflow)
 
-A Streamlit app that reads a PDF resume, searches public job pages, scores role fit with Groq, drafts a cover letter, and tracks jobs. A separate Playwright helper can open an application page and prefill common fields for manual review.
+A Streamlit app that reads a PDF resume, searches public job pages, scores role fit with Groq, drafts a cover letter, and tracks jobs. A separate local Playwright helper can open an application page, prefill confidently labelled fields, and optionally click one unambiguous submit button only after the user reviews the page and types an explicit confirmation.
 
 ## Run locally (Python 3.11 recommended)
 
 ```bash
 python -m venv .venv
 # Windows:
-.venv\Scripts\activate
+.venv\\Scripts\\activate
 pip install -r requirements.txt
 playwright install chromium
 streamlit run app.py
@@ -28,18 +28,28 @@ A GitHub Actions workflow searches public job pages every day at 7:00 PM India t
 
 The workflow uses public search snippets; it cannot guarantee that a vacancy is still open or that every detail is correct. Verify the employer's official careers page before applying. It does not submit applications.
 
-## Browser autofill helper (local)
+## Local browser autofill and optional user-confirmed submission
 
 1. Copy `profile.example.json` to `profile.json` and enter accurate personal details. Keep `profile.json` private; do not commit it.
-2. Open an official job application URL and run:
+2. Open an official job application URL and run the following in a local terminal:
 
 ```bash
 python browser_agent.py --url "https://the-official-application-url" --profile profile.json --resume "C:\\path\\to\\resume.pdf"
 ```
 
-The helper opens a visible Chromium browser and fills only common fields it can confidently identify. Review every field and complete any missing information yourself.
+The helper opens a visible Chromium browser using a local browser profile. If login or OTP is required, complete it manually in the browser. The local browser profile may retain your login session on this computer; protect it and do not upload it.
 
-**It never clicks Submit.** CAPTCHA, OTP, login, legal declarations, work authorization and sponsorship questions require your direct attention. Never provide false or guessed answers.
+The helper fills only common fields it can confidently identify. It leaves unknown or unlabelled fields for you. Review the entire application, including eligibility, work authorization, sponsorship, salary, dates, and legal declarations.
+
+**Submission is disabled by default.** On a portal whose terms permit this automation, you may explicitly enable the optional submit step:
+
+```bash
+python browser_agent.py --url "https://the-official-application-url" --profile profile.json --resume "C:\\path\\to\\resume.pdf" --allow-submit
+```
+
+After filling, the browser pauses for review. It will click a uniquely identified supported submit button only if you type `SUBMIT` exactly in the terminal. Otherwise it cancels. Check the employer page afterward for its actual confirmation. This is not a guarantee that every portal's form or submit control is supported.
+
+CAPTCHA and OTP are not bypassed; handle them yourself. Never submit guessed or false answers. Do not use this helper on portals that prohibit automated browser interaction, and do not use it for mass applications.
 
 ## API keys
 
@@ -53,9 +63,11 @@ Check provider pricing and limits before use.
 - Public job search results may be irrelevant or duplicated.
 - Scanned PDFs may need OCR before text extraction works.
 - SQLite storage may be ephemeral on some cloud deployments.
-- Browser autofill is a local helper, not a hosted always-on worker. Job sites use different form layouts, so some fields will need manual entry.
+- Browser autofill and optional submission run locally on your computer, not on the hosted Render app.
+- Job sites use different form layouts. Only common labelled fields and a small set of submit button labels are supported; some fields will need manual entry.
+- The helper does not bypass CAPTCHA, OTP, login, access controls, or portal restrictions.
 - Daily discovery runs through GitHub Actions, not a continuously running Render worker. The dashboard feed updates after each successful scheduled run.
-- The automated discovery profile contains role/skill preferences, not the user's full resume. The interactive resume matching feature still uses the PDF uploaded during the current app session.
-- There is no universal auto-apply. Final submission stays with the user.
+- The automated discovery profile contains role/skill preferences, not the user's full resume. Interactive resume matching uses the PDF uploaded during the current app session.
+- There is no universal auto-apply: each employer portal must be checked for compatibility and permitted use.
 
 Never store passwords, session cookies, API keys or private applicant data in this repository.

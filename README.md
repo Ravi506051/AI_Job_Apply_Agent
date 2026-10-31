@@ -119,3 +119,11 @@ Suggested engineering checks: deduplicate listings by canonical URL, store API k
 - Review every prefilled field, resume attachment, eligibility response, salary expectation, and legal declaration yourself.
 - Keep browser profiles, resume files, personal profile JSON, and API credentials private; never commit them to the repository.
 - Respect each job portal's terms, rate limits, CAPTCHA/OTP requirements, and explicit user-consent requirements. Submission should remain a deliberate user-controlled action.
+
+## Automation Reliability and Responsible Job Applications
+
+- Keep job discovery, eligibility matching, resume tailoring, and application submission as separate workflow stages.
+- Require user review and explicit approval before submitting an application or sharing personal information.
+- Validate job URLs, required fields, deadlines, and duplicate applications before proceeding.
+- Store account credentials and API keys securely outside the repository; never commit passwords, tokens, or private resume data.
+- Track each application's source, role, company, submission status, and timestamp without overstating automation success.

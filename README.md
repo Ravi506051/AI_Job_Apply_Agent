@@ -111,3 +111,11 @@ For reproducibility, record source versions, environment and dependency versions
 The application workflow separates job discovery, profile-to-role matching, draft generation, application tracking, and local browser assistance. Treat job-fit scores as ranking signals, not proof of eligibility. Verify each listing on the employer's official careers page and validate every prefilled field against the user's current resume and profile before any submission.
 
 Suggested engineering checks: deduplicate listings by canonical URL, store API keys and applicant details outside version control, keep browser automation visible, handle CAPTCHA/OTP manually, and require explicit per-application review and confirmation. Never infer answers for legal, work-authorization, or eligibility questions.
+
+## Application Safety and Verification
+
+- Treat job search results and AI fit scores as recommendations, not confirmation that a vacancy is active or that an applicant is eligible.
+- Verify each role on the employer's official careers page before sharing personal information or applying.
+- Review every prefilled field, resume attachment, eligibility response, salary expectation, and legal declaration yourself.
+- Keep browser profiles, resume files, personal profile JSON, and API credentials private; never commit them to the repository.
+- Respect each job portal's terms, rate limits, CAPTCHA/OTP requirements, and explicit user-consent requirements. Submission should remain a deliberate user-controlled action.

@@ -127,3 +127,10 @@ Suggested engineering checks: deduplicate listings by canonical URL, store API k
 - Validate job URLs, required fields, deadlines, and duplicate applications before proceeding.
 - Store account credentials and API keys securely outside the repository; never commit passwords, tokens, or private resume data.
 - Track each application's source, role, company, submission status, and timestamp without overstating automation success.
+
+## Application Safety and Reliability Checklist
+
+- Treat job listings as unverified until checked on the employer's official careers page; record the source URL and date discovered.
+- Keep resume files, profile details, and API credentials out of version control and deployment logs.
+- Require the user to review every populated application field and explicitly confirm before any submission action.
+- Test duplicate detection, expired links, missing form fields, CAPTCHA or login interruptions, and browser timeouts; never claim an application was submitted unless the employer confirms it.

@@ -53,3 +53,10 @@ Add stronger duplicate detection, explainable role matching, application status 
 ## Portfolio Context
 
 This project is part of my hands-on learning portfolio. The repository documents the workflow and implementation; results should be reproduced from the included code and data before being used in reports or professional claims.
+
+## Responsible Automation and Quality Checks
+
+- Show the source URL and key job details so users can verify each opportunity.
+- Keep resume parsing, job matching, document drafting, and application tracking as separately testable stages.
+- Require explicit user review and approval before submitting applications or sharing personal information.
+- Protect resume files and credentials, and provide a way to correct extracted profile details.

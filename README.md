@@ -1,62 +1,32 @@
 # AI Job Apply Agent
 
-An AI-assisted job discovery and application-support tool. The project reads a resume, finds public job listings, estimates role fit, drafts application material and helps track opportunities. Any browser-based form assistance is designed to remain user-reviewed and user-approved.
+An AI-assisted job search and application workspace built with Streamlit. It can read a resume, discover and rank opportunities, draft application material, and track progress, with human review for application submission.
 
-## Main capabilities
-- Extract information from a PDF resume.
-- Discover job listings from configured public sources.
-- Rank opportunities against a candidate profile.
-- Draft tailored cover letters and application notes.
-- Track discovered roles and application status.
-- Provide an optional browser helper for form assistance with explicit user confirmation.
+## Capabilities
 
-## Technology
-Python · Streamlit · Groq API · Playwright · GitHub Actions
+- Resume parsing and candidate-profile review.
+- Job discovery using configured providers.
+- Role-fit ranking and application-material drafts.
+- Application tracking and optional browser-assisted form filling.
+- Batch discovery and scheduled GitHub Actions configuration.
 
 ## Run locally
-```bash
+
+~~~bash
 git clone https://github.com/Ravi506051/AI_Job_Apply_Agent.git
 cd AI_Job_Apply_Agent
 python -m venv .venv
-# Windows: .venv\\Scripts\\activate
+# Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-playwright install chromium
 streamlit run app.py
-```
-Configure required API keys using the secrets mechanism documented in the repository. Never commit real credentials.
+~~~
 
-## Scheduled discovery
-The repository includes a GitHub Actions workflow for scheduled job discovery. Configure the required repository secrets in GitHub Actions settings and review the workflow file for its schedule, data sources and output format before enabling it.
+Configure provider credentials through Streamlit secrets using .streamlit/secrets.example.toml as a guide. Review AUTOMATION_SETUP.md before enabling browser assistance. The repository also includes profile.example.json, candidate_profile.json, jobs_feed.json, and scripts for batch and browser workflows; inspect their configuration before running them.
 
-## Human approval and safety
-- Treat role-fit scores as recommendations, not guarantees.
-- Verify job details and eligibility on the employer's official site.
-- Review every field before submitting an application.
-- Never submit an application without explicit user approval.
-- Protect resume data and avoid logging personal information.
-- Respect website terms, rate limits and robots policies.
+## Application review and privacy
 
-## Future improvements
-Add stronger duplicate detection, explainable role matching, application status analytics, test coverage and safer browser-session handling.
+Treat match scores and generated text as suggestions. Verify each job, eligibility requirement, resume attachment, and form field. Keep final submission under user control and follow each site's terms, rate limits, and authentication requirements. Never commit API keys, session cookies, or private candidate data.
 
 ## Maintainer
-**Ravi Kumar Rao** · [GitHub](https://github.com/Ravi506051)
 
-## Skills Demonstrated
-
-- Resume parsing and information extraction
-- Job discovery and role matching
-- Application drafting and workflow automation
-- Browser-assisted form workflows with human review
-- Secure handling of credentials and personal information
-
-## Portfolio Context
-
-This project is part of my hands-on learning portfolio. The repository documents the workflow and implementation; results should be reproduced from the included code and data before being used in reports or professional claims.
-
-## Responsible Automation and Quality Checks
-
-- Show the source URL and key job details so users can verify each opportunity.
-- Keep resume parsing, job matching, document drafting, and application tracking as separately testable stages.
-- Require explicit user review and approval before submitting applications or sharing personal information.
-- Protect resume files and credentials, and provide a way to correct extracted profile details.
+Ravi Kumar Rao · [GitHub](https://github.com/Ravi506051)
